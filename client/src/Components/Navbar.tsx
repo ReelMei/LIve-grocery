@@ -1,4 +1,4 @@
-import { BikeIcon, ChevronDown, MapPinIcon, Menu, PackageIcon, Search, ShoppingCartIcon, UserIcon, X } from "lucide-react";
+import { ArrowUpRightIcon, BikeIcon, ChevronDown, LogOutIcon, MapPinIcon, Menu, PackageIcon, Search, ShieldIcon, ShoppingCartIcon, UserIcon, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -56,7 +56,7 @@ const Navbar = () => {
                     {/* User */}
                     <div className="">
                         {user ? (
-                            <button className="flex items-center gap-2 p-2">
+                            <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center gap-2 p-2">
                                 <div className="size-7 rounded-full bg-green-950 text-white flex-center">
                                     {user.name.charAt(0).toUpperCase()}
                                 </div>
@@ -71,7 +71,7 @@ const Navbar = () => {
                                 {userMenuOpen ? <X className="md:hidden" onClick={() => setUserMenuOpen(!userMenuOpen)}/> : <Menu className="md:hidden" onClick={() => setUserMenuOpen(!userMenuOpen)}/>}
                             </div>
                         )}
-
+                        <div className="relaive">
                         {userMenuOpen && (
                             <>
                             <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)}>
@@ -87,12 +87,25 @@ const Navbar = () => {
                                         {user && <Link to="/login" className="dropdown-link"><UserIcon size={18}/>Login</Link>}
                                         {user && <Link to="/orders" className="dropdown-link"><PackageIcon size={18}/>Orders</Link>}
                                         {user && <Link to="/addresses" className="dropdown-link"><MapPinIcon size={18}/>Addresses</Link>}
-                                       <Link to="/addresses" className="dropdown-link"><MapPinIcon size={18}/>Addresses</Link>
+                                       <Link to="/products" className="dropdown-link"><ArrowUpRightIcon size={18}/>Products</Link>
+                                       <Link to="/deals" className="dropdown-link"><ArrowUpRightIcon size={18}/>Deals</Link>
+
+                                       {user?.isAdmin && (
+                                          <Link to="/admin/products" className="dropdown-link"><ShieldIcon size={18}/><span className="text-app-orange-dark">Admin Panel</span></Link>
+                                       )}
+                                       {user && (
+                                         <div className="border-t border-app-border pt-1">
+                                            <button className="flex items-center gap-3 px-4 py2.5 text-sm text-app-error hover:bg-red-50 w-full transition-colors">
+                                                <LogOutIcon size={16}/> Logout
+                                            </button>
+                                         </div>
+                                       )}
                                     </div>
                                 </div>
                             </div>
                             </>
                         )}
+                        </div>
 
                     </div>
                 </div>
