@@ -26,6 +26,10 @@ const PopularProducts = () => {
                     View All <ArrowBigRight className="size-4"/>
                 </Link>
             </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 ">
+
+            </div>
         </div>
     </section>
   )
