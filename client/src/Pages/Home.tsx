@@ -2,6 +2,7 @@ import AppPromoBanner from "../Components/Home/AppPromoBanner"
 import Features from "../Components/Home/Features"
 import Hero from "../Components/Home/Hero"
 import HomeCategories from "../Components/Home/HomeCategories"
+import Newsletter from "../Components/Home/Newsletter"
 import PopularProducts from "../Components/Home/PopularProducts"
 
 
@@ -13,6 +14,7 @@ const Home = () => {
      <HomeCategories />
      <PopularProducts />
      <AppPromoBanner />
+     <Newsletter />
     </div>
   )
 }
