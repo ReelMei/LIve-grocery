@@ -13,7 +13,7 @@ const Hero = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
             <div className="max-w-xl xl:pl-10">
                 <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-orange-300 bg-orange-500/20 rounded-full mb-5">
-                    <LeafIcon className="size-3"/> Welcome to EnzoCARTS; Fresh Groceries, Delivered Fast!
+                    <LeafIcon className="size-3"/> Welcome to EnzoCarts; Fresh Groceries, Delivered Fast!
                 </span>
 
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-5">
