@@ -1,14 +1,12 @@
 import { BikeIcon, ChevronDown, Handshake, LogOutIcon, MapPinIcon, Menu, PackageIcon, Search, ShieldIcon, ShoppingBasket, ShoppingCartIcon, UserIcon, X } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../Context/CartContext";
 
 const Navbar = () => {
 
   const user: any = { name: "Enzo", email: "enzo@example.com", isAdmin: true };
-  const { cartCount, setCartCount } = {
-    cartCount: 5,
-    setCartCount: (_data: any) => {}
-  };
+  const { cartCount, setIsCartOpen } = useCart()
 
   const [searchQuery, setSearchQuery] = useState("");
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -25,7 +23,7 @@ const Navbar = () => {
   const handleLogout = () => {
     setUserMenuOpen(false);
     navigate("/")
-  }
+  } 
 
   return (
     <nav className="bg-white sticky top-0 z-50 border-b border-app-border">
@@ -62,7 +60,7 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
 
             {/* Cart */}
-            <button className="relative p-2 rounded-xl" onClick={() => setCartCount(true)}>
+            <button className="relative p-2 rounded-xl" onClick={() => setIsCartOpen(true)}>
               <ShoppingCartIcon className="size-5 text-zinc-900" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 size-4 bg-red-700 text-white text-[10px] rounded-full flex-center">
