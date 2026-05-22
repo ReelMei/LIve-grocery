@@ -2,6 +2,7 @@ import { BikeIcon, ChevronDown, Handshake, LogOutIcon, MapPinIcon, Menu, Package
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
+import { dummyProducts } from "../assets/assets";
 
 const Navbar = () => {
 
@@ -12,6 +13,9 @@ const Navbar = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const handleSearch = (e: React.SubmitEvent) => {
     e.preventDefault()
     if(searchQuery.trim()){
@@ -19,6 +23,22 @@ const Navbar = () => {
         setSearchQuery("")
     }
   }
+
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  setSearchQuery(value);
+  if (value.trim().length > 0) {
+    const filtered = dummyProducts.filter((p: any) =>
+      p.name.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setSearchResults(filtered.slice(0, 6)); // max 6 results
+    setSearchOpen(true);
+  } else {
+    setSearchResults([]);
+    setSearchOpen(false);
+  }
+}
+
 
   const handleLogout = () => {
     setUserMenuOpen(false);
@@ -43,18 +63,64 @@ const Navbar = () => {
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-sm text-xs sm:text-sm">
-            <div className="relative w-full">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="bg-orange-50 w-full pl-8 p-2 rounded-full ring ring-app-orange/15 focus:ring-app-orange/30"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </form>
+  <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-sm text-xs sm:text-sm relative">
+   <div className="relative w-full">
+    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
+    <input
+      type="text"
+      placeholder="Search..."
+      className="bg-orange-50 w-full pl-8 p-2 rounded-full ring ring-app-orange/15 focus:ring-app-orange/30 outline-none"
+      value={searchQuery}
+      onChange={handleSearchInput}
+      onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
+      onFocus={() => searchQuery && setSearchOpen(true)}
+    />
+    </div>
+
+  {/* Dropdown results */}
+  {searchOpen && searchResults.length > 0 && (
+    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-app-border z-50 overflow-hidden">
+      {searchResults.map((product) => (
+        <div
+          key={product._id}
+          onClick={() => {
+            navigate(`/products`);
+            setSearchQuery("");
+            setSearchOpen(false);
+          }}
+          className="flex items-center gap-3 px-4 py-2.5 hover:bg-orange-50 cursor-pointer transition-colors"
+        >
+          <img src={product.image} alt={product.name} className="size-8 rounded-lg object-cover" />
+          <div>
+            <p className="text-sm font-medium text-zinc-800">{product.name}</p>
+            <p className="text-xs text-zinc-400">{product.category}</p>
+          </div>
+          <span className="ml-auto text-sm font-semibold text-app-orange">₦{product.price}</span>
+        </div>
+      ))}
+
+      {/* View all results */}
+      
+      <div
+        onClick={() => {
+          navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+          setSearchQuery("");
+          setSearchOpen(false);
+        }}
+        className="px-4 py-2.5 text-xs text-center text-app-orange font-medium hover:bg-orange-50 cursor-pointer border-t border-app-border"
+      >
+        View all results for "{searchQuery}"
+      </div>
+    </div>
+  )}
+
+  {/* No results */}
+  {searchOpen && searchQuery && searchResults.length === 0 && (
+    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-app-border z-50 px-4 py-4 text-center text-sm text-zinc-400">
+      No products found for "{searchQuery}"
+    </div>
+  )}
+</form>
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">

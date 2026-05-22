@@ -1,7 +1,7 @@
 const MyOrders = () => {
   return (
     <div>
-      <h1>my orders</h1>
+      <h1 className="text-2xl font-bold text-app-orange">Coming Soon ...</h1>
     </div>
   )
 }
