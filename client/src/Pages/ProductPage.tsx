@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import type { Product } from "../Types"
 import { dummyProducts } from "../assets/assets"
 import Loading from "../Components/Loading"
-import { ArrowLeft, Home, Leaf } from "lucide-react"
+import { ArrowLeft, Home, Leaf, Minus, Plus, ShoppingCart, Star } from "lucide-react"
 
 const ProductPage = () => {
 
@@ -43,6 +43,20 @@ const ProductPage = () => {
   const displayQuantity = inCart ? cartItem.quantity : localQuantity
 
  const categoryLabel = product.category.replace(/-/g, " ");
+
+ const handleMinus = () => {
+  if(inCart) {
+    if(cartItem.quantity > 1) updateQuantity(product._id, cartItem.quantity - 1)
+      else removeFromCart(product._id)
+  } else {
+    setLocalQuantity(Math.max(1, localQuantity - 1))
+  }
+ }
+
+ const handlePlus = () => {
+  if(inCart) updateQuantity(product._id, cartItem.quantity + 1)
+    else setLocalQuantity(localQuantity + 1)
+ }
 
    
 
@@ -125,6 +139,68 @@ const ProductPage = () => {
                   <h1 className="text-2xl md:text-3xl font-semibold text-app-green mb-3">
                     {product.name}
                   </h1>
+
+                  {/* Rating */}
+
+                  {product.rating > 0 && (
+                    <div className="flex items-center gap-2 mb-5">
+                      <div className="flex items-center gap-0.5">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star key={star} className={`w-4 h-4 ${star <= Math.round(product.rating) ? "text-app-warning fill-app-warning" : "text-app-border"}`}/>
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium">{product.rating}</span>
+                      <span className="text-sm text-app-text-light">({product.reviewCount})</span>
+                    </div>
+                  )}
+
+                  {/* Price */}
+
+                  <div className="flex items-baseline gap-3 mb-5">
+                    <span className="text-3xl md:text-4xl font-semibold text-app-green">{currency}{product.price.toFixed(2)}</span>
+                    {product.originalPrice > product.price && (
+                      <span className="text-lg text-app-text-light line-through">
+                        {currency}{product.originalPrice.toFixed(2)}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Description */}
+
+                  <p className="text-sm text-app-text-light leading-relaxed mb-6">{product.description}</p>
+
+                  {/* Stock */}
+
+                  <div className="mb-6">
+                    {product.stock > 0 ? (
+                    <span className="font-medium text-sm text-app-success">
+                      In Stock ({product.stock} available)
+                    </span>
+                  ): (
+                    <span className="text-sm text-app-error font-medium">
+                      Out Of Stock
+                    </span>
+                  )}
+                  </div>
+
+                  {/* Add to Cart & Goods Quantity */}
+
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center border border-app-border rounded-xl overflow-hidden">
+                      <button onClick={handleMinus} className="p-3 hover:bg-app-cream transition-colors"><Minus className="w-4 h-4"/></button>
+                      <span className="px-5 text-sm font-semibold min-w-10 text-center">{displayQuantity}</span>
+                      <button onClick={handlePlus} className="p-3 hover:bg-app-cream transition-colors"><Plus className="w-4 h-4"/></button>
+                    </div>
+                    <button disabled={product.stock === 0}
+                    onClick={() => {
+                      if(!inCart) addToCart(product, localQuantity)
+                    }}
+                    className={`flex-1 py-3 font-semibold rounded-xl transition-colors flex-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] ${inCart ? "bg-app-green text-app-cream border border-app-green" : "bg-app-orange text-white hover:bg-app-orange-dark"}`}>
+                      <ShoppingCart className="w-4 h-4"/>
+                      {inCart ? "On Cart" : "Add to Cart"}
+                    </button>
+                  </div>
+
                 </div>
 
             </div>
