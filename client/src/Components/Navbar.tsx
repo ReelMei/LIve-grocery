@@ -84,7 +84,7 @@ const Navbar = () => {
         <div
           key={product._id}
           onClick={() => {
-            navigate(`/products`);
+            navigate(`/products/:id`);
             setSearchQuery("");
             setSearchOpen(false);
           }}
