@@ -5,6 +5,7 @@ import type { Product } from "../Types"
 import { dummyProducts } from "../assets/assets"
 import Loading from "../Components/Loading"
 import { ArrowLeft, Home, Leaf, Minus, Plus, ShoppingCart, Star } from "lucide-react"
+import DummyReviewsSection from "../assets/DummyReviewsSection"
 
 const ProductPage = () => {
 
@@ -209,11 +210,21 @@ const ProductPage = () => {
 
 
            {/* Customer Reviews */}
-
+           {product.reviewCount > 0 && <DummyReviewsSection product={product}/> }
 
 
             {/* Related Products */}
+            {relatedProducts.length > 0 && (
+              <section className="mt-12 m-44">
+                <div>
 
+                </div>
+
+                <div>
+                  
+                </div>
+              </section>
+            )}
 
 
       </div>
