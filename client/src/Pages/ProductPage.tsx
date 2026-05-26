@@ -4,8 +4,9 @@ import { useEffect, useState } from "react"
 import type { Product } from "../Types"
 import { dummyProducts } from "../assets/assets"
 import Loading from "../Components/Loading"
-import { ArrowLeft, Home, Leaf, Minus, Plus, ShoppingCart, Star } from "lucide-react"
+import { ArrowBigRight, ArrowLeft, Home, Leaf, Minus, Plus, ShoppingCart, Star } from "lucide-react"
 import DummyReviewsSection from "../assets/DummyReviewsSection"
+import ProductCard from "../Components/Home/ProductCard"
 
 const ProductPage = () => {
 
@@ -216,12 +217,21 @@ const ProductPage = () => {
             {/* Related Products */}
             {relatedProducts.length > 0 && (
               <section className="mt-12 m-44">
-                <div>
-
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl font-semibold text-app-green">Related Products</h2>
+                    <p className="text-sm text-app-text-light mt-1">more from {categoryLabel}</p>
+                  </div>
+                  <Link className="text-sm font-semibold text-app-orange hover:text-app-orange-dark flex items-center gap-1 transition-colors"
+                  to={`/products?category=${product.category}`}>
+                   View All <ArrowBigRight className="size-4"/>
+                  </Link>
                 </div>
 
-                <div>
-                  
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 xl:gap-8">
+                  {relatedProducts.slice(0,5).map((rp) => (
+                    <ProductCard key={rp._id} product={rp}/>
+                  ))}
                 </div>
               </section>
             )}
