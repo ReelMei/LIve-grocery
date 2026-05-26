@@ -216,7 +216,7 @@ const ProductPage = () => {
 
             {/* Related Products */}
             {relatedProducts.length > 0 && (
-              <section className="mt-12 m-44">
+              <section className="mt-12 mb-44">
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h2 className="text-2xl font-semibold text-app-green">Related Products</h2>
