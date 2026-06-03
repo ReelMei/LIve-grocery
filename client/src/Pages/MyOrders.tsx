@@ -1,7 +1,107 @@
+import { useEffect, useState } from "react";
+import type { Order } from "../Types";
+import { Link, useSearchParams } from "react-router-dom";
+import { useCart } from "../Context/CartContext";
+import { dummyDashboardOrdersData } from "../assets/assets";
+import Loading from "../Components/Loading";
+import { Calendar, Package } from "lucide-react";
+
 const MyOrders = () => {
+
+  const currency = import.meta.env.VITE_CURRENCY_SYMBOL || "₦";
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("all")
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const tabs = ["all", "Placed", "Out For Delivery", "Delivered"]
+
+  const {clearCart} = useCart()
+
+  const fetchOrders = async () => {
+    setOrders(dummyDashboardOrdersData as any)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    if(searchParams.get("clearCart")){
+      clearCart();
+      setSearchParams({});
+      setTimeout(() => {
+        fetchOrders()
+      }, 2000)
+    }else {
+      fetchOrders()
+    }
+  },[activeTab])
+
+
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-app-orange">Coming Soon ...</h1>
+    <div className="min-h-screen bg-app-cream mb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="text-2xl font-semibold text-app-green mb-6">My Orders</h1>
+
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+          {tabs.map((tab) => (
+            <button 
+            className={`px-4 py-2 text-sm font-medium rounded-xl whitespace-nowrap transition-colors ${activeTab === tab ? "bg-app-green text-white" : "bg-white text-app-text-light hover:bg-app-cream"}`}
+            onClick={() => setActiveTab(tab)}
+            key={tab}>
+              {tab === 'all' ? 'All Orders' : tab}
+            </button>
+          ))}
+        </div>
+
+
+         {/* Orders Lst */}
+         {loading ? (
+          <Loading />
+         ) : orders.length === 0 ? (
+          <div className="text-center py-16">
+            <Package className="size-16 text-app-border mx-auto mb-4"/>
+            <h2 className="text-lg font-medium text-app-green mb-2">No New Orders... </h2>
+            <p className="text-sm text-app-text-light mb-4">Add to Cart, to see your orders</p>
+            <Link to="/products" className="inline-flex px-4 py-2 bg-app-green text-white text-sm rounded-lg">
+              Start Shopping
+            </Link>
+          </div>
+         ) : (
+          <div className="space-y-4">
+            {orders.map((order) => (
+              <Link 
+              className="block max-w-4xl bg-white rounded-2xl p-5 hover:shadow transition-all"
+              to={ `/orders/${order._id}`}
+              key={order._id}>
+
+                {/* order id, date & status */}
+                <div className="flex items-start justify-between mb-3">
+                  {/* left */}
+                  <div>
+                    <p>Order #{order._id.slice(-8).toUpperCase()}</p>
+                    <div>
+                      <Calendar />
+                      <span>{new Date(order.createdAt).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"})}</span>
+                    </div>
+                  </div>
+
+
+                  {/* right */}
+                </div>
+
+
+                {/* Item Thumbmail */}
+
+
+                {/* Tabs */}
+
+              </Link>
+            ))}
+          </div>
+         )}
+
+      </div>
     </div>
   )
 }
