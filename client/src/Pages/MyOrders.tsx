@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import type { Order } from "../Types";
 import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
-import { dummyDashboardOrdersData } from "../assets/assets";
+import { dummyDashboardOrdersData, statusColors } from "../assets/assets";
 import Loading from "../Components/Loading";
-import { Calendar, Package } from "lucide-react";
+import { Calendar, ChevronRight, Package } from "lucide-react";
 
 const MyOrders = () => {
 
@@ -79,15 +79,21 @@ const MyOrders = () => {
                 <div className="flex items-start justify-between mb-3">
                   {/* left */}
                   <div>
-                    <p>Order #{order._id.slice(-8).toUpperCase()}</p>
-                    <div>
-                      <Calendar />
-                      <span>{new Date(order.createdAt).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"})}</span>
+                    <p className="text-sm font-medium text-app-green">Order #{order._id.slice(-8).toUpperCase()}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Calendar className="size-3 text-app-text-light"/>
+                      <span className="text-xs text-app-text-light">{new Date(order.createdAt).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"})}</span>
                     </div>
                   </div>
 
 
                   {/* right */}
+                  <div>
+                    <span className={`px-4 py-1 text-xs font-medium rounded-full ${statusColors[order.status] || "bg-gray-100 text-gray-800"}`}>
+                      {order.status} <ChevronRight className="size-4 text-app-text-light"/>
+                    </span>
+                  </div>
+
                 </div>
 
 
