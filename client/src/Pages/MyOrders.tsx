@@ -88,19 +88,35 @@ const MyOrders = () => {
 
 
                   {/* right */}
-                  <div>
+                  <div className="flex items-center gap-2">
                     <span className={`px-4 py-1 text-xs font-medium rounded-full ${statusColors[order.status] || "bg-gray-100 text-gray-800"}`}>
-                      {order.status} <ChevronRight className="size-4 text-app-text-light"/>
+                      {order.status}
                     </span>
+                    <ChevronRight className="size-4 text-app-text-light"/>
                   </div>
 
                 </div>
 
 
                 {/* Item Thumbmail */}
+                <div className="flex">
+                  {order.items.slice(0,4).map((item, i) => (
+                    <img key={i} src={item.image} alt={item.name} className="size-12 sm:size-16 rounded-lg object-cover border border-app-border" />
+                  ))}
+                  {
+                    order.items.length > 4  && <div className="size-12 sm:size-16 rounded-lg bg-app-cream flex-center text-xs font-semibold text-app-text-light">
+                      +{order.items.length - 4}
+                    </div>
+                  }
+                </div>
 
 
-                {/* Tabs */}
+                {/* Total items & Price  */}
+                <div className="flex justify-between items-center pt-3 text-sm ">
+                  <span className="text-app-text-light">{order.items.length} items</span>
+
+                  <span className="font-semibold text-app-green">{currency}{order.total.toFixed(2)}</span>
+                </div>
 
               </Link>
             ))}
