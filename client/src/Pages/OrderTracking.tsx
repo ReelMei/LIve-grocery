@@ -3,9 +3,10 @@ import { useNavigate, useParams } from "react-router-dom"
 import type { Order } from "../Types";
 import { dummyDashboardOrdersData } from "../assets/assets";
 import Loading from "../Components/Loading";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MapPin, Phone } from "lucide-react";
 import OrderOTP from "../Components/OrderTracking/OrderOTP";
 import LiveMap from "../Components/OrderTracking/LiveMap";
+import OrderTimeLine from "../Components/OrderTracking/OrderTimeLine";
 
 const OrderTracking = () => {
 
@@ -56,13 +57,55 @@ const OrderTracking = () => {
              <OrderOTP order={order}/>
 
              {/* LIve Tracking Map */}
-
              <LiveMap order={order} liveLocation={liveLocation}/>
+
+
+             {/* Progress Time LIne */}
+             <OrderTimeLine order={order}/>
+
+             {/* Delivery Contact*/}
+             {order.deliveryPartner && order.status !== "Delivered" && order.status !== "Cancelled" && (
+              <div className="bg-white rounded-2xl p-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="size-11 rounded-full bg-app-green flex-center">
+                    <span className="text-white font-semibold text-sm">
+                      {order.deliveryPartner.name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-app-green"> {order.deliveryPartner.name}</p>
+                    <p className="text-xs text-app-text-light capitalize">{order.deliveryPartner.vehicleType}  Delivery Person</p>
+                  </div>
+                </div>
+                <a href={`tel:${order.deliveryPartner.phone}`} className="p-2.5 bg-app-cream rounded-xl hover:bg-app-cream-dark transition-colors">
+                  <Phone className="size-4 text-app-green"/>
+                </a>
+              </div>
+             )}
 
           </div>
 
           <div>
              {/* Right Side - Order Details */}
+
+             <div className="space-y-5">
+
+              {/* Delivery Address */}
+              <div className="bg-white rounded-2xl p-5">
+                <h3 className="text-sm font-semibold flex gap-3 items-center text-app-green">
+                  <MapPin className="size-4"/>
+                  Delivery Address
+                </h3>
+                <p className="text-sm text-app-text-light leading-relaxed mt-2">
+                  {order.shippingAddress.label}
+                  <br />
+                  {order.shippingAddress.address}
+                  <br />
+                  {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zip}
+                </p>
+              </div>
+             </div>
+
           </div>
         </div>
 

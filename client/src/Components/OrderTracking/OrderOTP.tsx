@@ -11,7 +11,7 @@ export default function OrderOTP({ order }: { order: any }) {
                 </div>
                 <div>
                     <h3 className="font-semibold">Delivery OTP</h3>
-                    <p className="text-xs text-white/70">Share this with your delivery partner</p>
+                    <p className="text-xs text-white/70">Share this with your delivery person</p>
                 </div>
             </div>
             <div className="flex gap-2 mt-2">
