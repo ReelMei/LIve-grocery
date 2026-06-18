@@ -4,6 +4,7 @@ import { dummyAddressData } from "../assets/assets"
 import { MapPin, Plus } from "lucide-react"
 import Loading from "../Components/Loading"
 import AddressCard from "../Components/AddressCard"
+import AddressForm from "../Components/AddressForm"
 
 const Addreses = () => {
 
@@ -58,6 +59,8 @@ useEffect(()=> {
         </div>
 
         {/* Form Model */}
+
+             {showForm && <AddressForm resetForm={resetForm} handleSubmit={handleSubmit} form={form} setForm={setForm} editingId={editingId}/> }
 
 
          {/* Address List */}

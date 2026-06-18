@@ -1,4 +1,4 @@
-import { Check, MapPin } from "lucide-react"
+import { Check, MapPin, Pencil, Trash } from "lucide-react"
 import type { Address } from "../Types"
 
 interface AddressCardProps{
@@ -39,7 +39,18 @@ const AddressCard = ({addr, onEditHandler, setAddresses} : AddressCardProps) => 
 
        {/* Right - Address Data */}
        <div className="flex items-center gap-1 ">
-        <button></button>
+        <button
+        onClick={() => onEditHandler(addr)}
+        className="p-2 text-app-text-light hover:text-app-green hover:bg-app-cream rounded-lg transition-colors">
+          <Pencil className="size-4"/>
+        </button>
+
+        <button
+        onClick={() => handleDelete(addr._id)}
+        className="p-2 text-app-text-light hover:text-app-error hover:bg-red-50 rounded-lg transition-colors">
+          <Trash className="size-4"/>
+        </button>
+
        </div>
     </div>
   )
