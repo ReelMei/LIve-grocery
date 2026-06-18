@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react"
 import type { Address } from "../Types"
 import { dummyAddressData } from "../assets/assets"
-import { Plus } from "lucide-react"
+import { MapPin, Plus } from "lucide-react"
+import Loading from "../Components/Loading"
+import AddressCard from "../Components/AddressCard"
 
 const Addreses = () => {
 
@@ -47,10 +49,37 @@ useEffect(()=> {
         {/* Page Header */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold text-app-green">My Addresses</h1>
-            <button className="px-4 py-2 flex gap-2 items-center font-semibold bg-app-green text-white text-sm rounded-xl hover:bg-app-green-light transition-colors">
+            <button 
+            onClick={() => {resetForm(); setShowForm(true)}}
+            className="px-4 py-2 flex gap-2 items-center font-semibold bg-app-green text-white text-sm rounded-xl hover:bg-app-green-light transition-colors">
+              
               <Plus className="size-4"/> Input Your Address
             </button>
         </div>
+
+        {/* Form Model */}
+
+
+         {/* Address List */}
+         {
+          loading ? (
+            <Loading />
+          ) : addresses.length === 0 ? (
+            <div className="text-center py-16">
+              <MapPin className="size-16 text-app-border mx-auto mb-4"/>
+              <h2 className="text-lg font-semibold text-app-green mb-2">Address Not Saved... Try again</h2>
+              <p className="text-sm text-app-text-light ">Add an address for a fast checkout and delivery.. Thanks</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {addresses.map((addr) => (
+                <div>
+                  <AddressCard key={addr._id} addr={addr} onEditHandler={onEditHandler} setAddresses={setAddresses}/>
+                </div>
+              ))}
+            </div>
+          )
+        }
       </div>
     </div>
   )
