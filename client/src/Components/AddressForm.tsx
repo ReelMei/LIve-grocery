@@ -50,15 +50,24 @@ const AddressForm = ({resetForm, handleSubmit, form, setForm, editingId} : any) 
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    
+                    <div>
+                    <label className="block text-sm font-medium text-app-green mb-1.5">Zip Code</label>
+                    <input type="text" placeholder="Add State..." required className="w-full px-4 py-2.5 text-sm rounded-xl border border-app-border focus:border-app-green outline-none" value={form.zip} onChange={(e) => setForm({...form, zip: e.target.value})}/>
+                 </div>
+                 <div className="flex items-end pb-1">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={form.isDefault} onChange={(e) => setForm({...form, isDefault: e.target.checked})} className=""/>
+                    <span className="text-sm text-app-text">Set As Default Address</span>
+                    </label>
+                </div>
                 </div>
 
              </div>
 
              {/* submit button */}
 
-             <button type="submit">
-
+             <button type="submit" className="mt-6 w-full p-3 bg-app-green text-white font-semibold rounded-xl hover:bg-app-green-light transition-colors">
+                {editingId ? "Change Address" : "Save Address"}
              </button>
 
         </form>
