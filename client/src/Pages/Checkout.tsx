@@ -2,8 +2,11 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useCart } from "../Context/CartContext"
 import { dummyAddressData } from "../assets/assets"
-import { ArrowLeft, Check, CreditCard,  MapPin, } from "lucide-react"
+import { ArrowLeft, Check, ChevronRight, CreditCard,  MapPin, } from "lucide-react"
 import type { Address } from "../Types"
+import CheckoutAddress from "../Components/Checkout/CheckoutAddress"
+import CheckoutPayment from "../Components/Checkout/CheckoutPayment"
+import CheckoutReview from "../Components/Checkout/CheckoutReview"
 
 const Checkout = () => {
 
@@ -92,6 +95,67 @@ const Checkout = () => {
         <h1 className="text-2xl font-semibold text-app-green mb-8"> Checkout</h1>
 
         {/* Steps */}
+        <div className="flex items-center gap-2 mb-8">
+          {steps.map((s, i) => (
+            <div key={s.key} className="flex items-center gap-2">
+              <button onClick={() => setStep(s.key)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${step === s.key ? "bg-app-green text-white" : "bg-white text-app-text-light"}`}>
+                <s.icon className="size-4"/> {s.label}
+                {
+                  i < steps.length - 1 && <ChevronRight className="size-4 text-app-text-light"/> 
+                }
+              </button>
+            </div>
+          ))}
+        </div>
+
+
+        <div className="grid md:grid-cols-3 gap-6">
+
+          {/* Main Form */}
+
+          <div className="md:col-span-2">
+            {step === "address" && <CheckoutAddress address={address} setAddress={setAddress} setStep={setStep} user={user} />}
+
+            {step === "payment" && <CheckoutPayment paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} setStep={setStep}  />}
+
+            {step === "review" && <CheckoutReview address={address} items={items} handlePlaceOrder={handlerPlaceOrder} loading={loading} total={total} />}
+          </div>
+
+
+           {/* Summary Sidebar */}
+
+           <div className="bg-white rounded-2xl p-5 h-fit sticky top-24">
+              <h3 className="text-sm font-semibold text-app-green mb-4">Order Summary</h3>
+
+              <div className="space-y-2 text-s">
+
+                <div className="flex justify-between">
+                  <span className="text-app-text-light">Subtotal ({items.length} items) </span>
+                  <span>{currency} {cartTotal.toFixed(2)} </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-app-text-light"> Delivery</span>
+                  <span>{deliveryFee === 0 ? <span className="text-app-success"> Free </span> : `${currency}${deliveryFee.toFixed(2)}`} </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-app-text-light"> Tax</span>
+                  <span>{currency} {tax.toFixed(2)} </span>
+                </div>
+
+
+                <div className="flex justify-between pt-3 border-t border-app-border text-base font-semibold">
+                  <span>Total Amount </span>
+                  <span className="text-app-green">{currency} {total.toFixed(2)} </span>
+                </div>
+
+
+              </div>
+           </div>
+
+
+        </div>
 
       </div>
     </div>
