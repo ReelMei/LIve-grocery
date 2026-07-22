@@ -82,7 +82,7 @@ export const footerData = {
     ],
 
     contact: [
-        { icon: MapPinIcon, text: "115, Anu street, Nigeria" },
+        { icon: MapPinIcon, text: "115, Kwara. Nigeria" },
         { icon: PhoneIcon, text: "+234 9087654321" },
         { icon: MailIcon, text: "hello@example.com" },
     ],
