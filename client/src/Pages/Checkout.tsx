@@ -1,7 +1,99 @@
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useCart } from "../Context/CartContext"
+import { dummyAddressData } from "../assets/assets"
+import { ArrowLeft, Check, CreditCard,  MapPin, } from "lucide-react"
+import type { Address } from "../Types"
+
 const Checkout = () => {
+
+  const navigate = useNavigate()
+  const currency = import.meta.env.VITE_CURRENCY_SYMBOL || "$"
+
+  const {items, cartTotal} = useCart()
+  const {user} = {user: {addresses: dummyAddressData}}
+
+  const [step, setStep] = useState("address")
+  const [loading, setLoading] = useState(false)
+
+
+  const [address, setAddress] = useState<Address>({
+    _id: "",
+    label: "Home",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    isDefault: false,
+    lat: 0,
+    lng: 0,
+
+  })
+
+  const [paymentMethod, setPaymentMethod] = useState('card')
+
+  const deliveryFee = cartTotal > 20 ? 0 : 49.99;
+  const tax = cartTotal * 0.08;
+  const total = cartTotal + deliveryFee + tax;
+
+  const steps: {key: string; label: string; icon: typeof MapPin} [] = [
+    {key: "address", label: "address", icon: MapPin},
+    {key: "payment", label: "payment", icon: CreditCard},
+    {key: "review", label: "review", icon: Check},
+
+  ]
+
+  const handlerPlaceOrder = async () => {
+    setLoading(true)
+    navigate("/orders")
+  }
+
+  //POpulate address from user's default address
+
+  useState(() => {
+    if(user?.addresses?.length){
+      const defaultAddr = user.addresses.find((a) => a.isDefault) || user.addresses[0]
+      setAddress({
+         _id: defaultAddr?._id,
+         label: defaultAddr?.label,
+        address: defaultAddr?.address,
+        city: defaultAddr?.city,
+        state: defaultAddr?.state,
+        zip: defaultAddr?.zip,
+        isDefault: defaultAddr?.isDefault,
+        lat: defaultAddr?.lat,
+        lng: defaultAddr?.lng,
+      })
+    }
+  })
+
+
+  if(items.length === 0){
+    return (
+      <div className="min-h-screen bg-app-cream flex-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-app-green mb-2"> Cart is Empty!</h2>
+          <p className="text-sm  text-app-text-light mb-4">Add Products to checkout ..</p>
+          <button className="px-5 py-2.5 bg-app-green  text-white text-sm font-medium rounded-xl hover:bg-app-green-light transition-colors" onClick={()=> navigate("/products")}>
+            Check Product
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div>
-      
+    <div className="min-h-screen bg-app-cream">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-app-text-light hover:text-app-green mb-6 transition-colors">
+          <ArrowLeft className="size-4"/> Back
+        </button>
+        <h1 className="text-2xl font-semibold text-app-green mb-8"> Checkout</h1>
+
+        {/* Steps */}
+
+      </div>
     </div>
   )
 }
