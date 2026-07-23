@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { PackageIcon, NavigationIcon } from "lucide-react";
-import OtpModal from "../../components/Delivery/OtpModal";
-import CancelModal from "../../components/Delivery/CancelModal";
-import DeliveryOrderCard from "../../components/Delivery/DeliveryOrderCard";
-import Loading from "../../components/Loading";
-import type { Order } from "../../types";
+import OtpModal from "../../Components/Delivery/OtpModal";
+import CancelModal from "../../Components/Delivery/CancelModal";
+import DeliveryOrderCard from "../../Components/Delivery/DeliveryOrderCard";
+import Loading from "../../Components/Loading";
+import type { Order } from "../../Types";
 import { dummyDashboardOrdersData } from "../../assets/assets";
 
 export default function DeliveryDashboard() {

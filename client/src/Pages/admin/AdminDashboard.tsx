@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { PackageIcon, UsersIcon, ShoppingBagIcon, AlertTriangleIcon } from "lucide-react";
-import Loading from "../../components/Loading";
+import Loading from "../../Components/Loading";
 import { dummyAdminDashboardData, statusColors } from "../../assets/assets";
 
 interface Stats {

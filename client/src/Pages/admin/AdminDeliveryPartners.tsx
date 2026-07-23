@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PlusIcon, XIcon, TruckIcon, PhoneIcon, MailIcon } from "lucide-react";
-import type { DeliveryPartner } from "../../types";
-import Loading from "../../components/Loading";
+import type { DeliveryPartner } from "../../Types";
+import Loading from "../../Components/Loading";
 import { dummyDeliveryPartnerData } from "../../assets/assets";
 
 export default function AdminDeliveryPartners() {
