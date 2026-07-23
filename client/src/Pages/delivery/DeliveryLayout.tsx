@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { LogOutIcon, TruckIcon } from "lucide-react";
+import { BikeIcon, LogOutIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { DeliveryPartner } from "../../types";
+import type { DeliveryPartner } from "../../Types";
 import { dummyDeliveryPartnerData } from "../../assets/assets";
 
 export default function DeliveryLayout() {
@@ -24,8 +24,8 @@ export default function DeliveryLayout() {
             <header className="bg-white border-b border-app-border sticky top-0 z-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <TruckIcon className="size-6 text-app-green" />
-                        <span className="text-lg font-semibold text-app-green">Instacart Delivery</span>
+                        <BikeIcon className="size-6 text-app-green" />
+                        <span className="text-lg font-semibold text-app-green">EnzoCart Delivery</span>
                     </div>
                     <div className="flex items-center gap-3">
                         <span className="text-sm font-medium text-zinc-600">{partner.name}</span>
