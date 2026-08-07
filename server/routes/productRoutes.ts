@@ -12,7 +12,7 @@ productRouter.get("/", getProducts);
 productRouter.get("/:id", getProducts);
 productRouter.post("/", auth, admin, createProduct);
 productRouter.put("/:id", auth, admin, updateProduct);
-productRouter.delete("/:id", auth, admin, deleteProduct);
+
 
 
 
