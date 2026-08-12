@@ -5,13 +5,13 @@ import cloudinary from "../config/cloudinary.js";
 
 
 
-const router = express.Router();
+const uploadRouter = express.Router();
 
 const storage = multer.memoryStorage();
 const upload = multer({storage})
 
 
-router.post("/", auth, upload.single('image'),  async (req, res) => {
+uploadRouter.post("/", auth, upload.single('image'),  async (req, res) => {
     try {
         if(!req.file){
             return res.status(400).json({message: "No image file used"});
@@ -33,4 +33,4 @@ router.post("/", auth, upload.single('image'),  async (req, res) => {
 })
 
 
-export default router;
+export default uploadRouter;
