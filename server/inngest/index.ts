@@ -1,4 +1,4 @@
-import { Inngest } from "inngest";
+import { cron, Inngest } from "inngest";
 import { prisma } from "../config/prisma.js";
 import sendEmail from "../config/nodemailer.js";
 
@@ -65,5 +65,35 @@ const lowStockAlert = inngest.createFunction(
 
   },
 );
+
+
+
+// MOnthly Offers Email (First of every month) to all users with offers and discounts
+const sendMonthlyOffers = inngest.createFunction({
+    id : "Send-Monthly-Offers",
+    name: "Monthly Payday Offers",
+    triggers: [cron("0 10 1 * *")]
+}, async ({step}) => {
+    const {deals, users} = await step.run("fetch-deals-and-users", async() => {
+        // Get top discounted products as featured deals
+        const products = await prisma.product.findMany({
+            where: {stock: {gt: 0}},
+            orderBy: {originalPrice: "desc"},
+            take: 6,
+        })
+
+        const allUsers = await prisma.user.findMany({
+            select: {name: true, email: true}
+        })
+        return {deals: products, users: allUsers}
+    })
+
+    if(users.length === 0 || deals.length === 0){
+        return {skipped: true, reason: "No users or deals"}
+    }
+    
+})
+
+
 
 export const functions = [lowStockAlert];
